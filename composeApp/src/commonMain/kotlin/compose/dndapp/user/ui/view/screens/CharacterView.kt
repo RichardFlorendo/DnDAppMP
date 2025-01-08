@@ -101,157 +101,182 @@ fun CharacterView(){
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Row (
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-                    .heightIn(min = 32.dp, max = 60.dp),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Start
+            // CHARACTER INFO //
+            Box(
+
             ){
-                IconButton(
-                    modifier = Modifier
-                        .heightIn(min = 60.dp, max = 120.dp)
-                        .weight(1f),
-                    onClick = {  }
-                ) {
-                    Icon(imageVector = Icons.Default.Face,
-                        contentDescription = null)
-                }
+                Column(
 
-                Spacer(modifier = Modifier.width(20.dp))
-
-                TextField(
-                    modifier = Modifier
-                        .weight(3.5f),
-                    value = nameText,
-                    onValueChange = {
-                        if (it.length <= 100) nameText = it
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
-                        keyboardType = KeyboardType.Text
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
-                    ),
-                    singleLine = true,
-                    textStyle = TextStyle(),
-                    label = { Text(
-                        text = "Name",
-                        fontSize = 12.sp) }
-                )
-            }
-
-            Row (
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-                    .heightIn(min = 32.dp, max = 60.dp),
-                verticalAlignment = Alignment.Bottom
-            ){
-                TextField(
-                    modifier = Modifier
-                        .weight(3.5f),
-                    value = ancestryText,
-                    onValueChange = {
-                        if (it.length <= 50) ancestryText = it
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
-                        keyboardType = KeyboardType.Text
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
-                    ),
-                    singleLine = true,
-                    label = { Text(
-                        text = "Ancestry",
-                        fontSize = 12.sp) }
-                )
-
-                Spacer(modifier = Modifier.width(20.dp))
-
-                TextField(
-                    modifier = Modifier
-                        .weight(0.8f),
-                    value = ageText.toString(),
-                    onValueChange = {
-                        if (it.length <= 3) ageText = it.toInt()
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
-                        keyboardType = KeyboardType.Number
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
-                    ),
-                    textStyle = TextStyle(
-                        textAlign = TextAlign.Center
-                    ),
-                    singleLine = true,
-                    label = { Text(
-                        text = "Age",
-                        fontSize = 12.sp) }
-                )
-            }
-
-            Row (
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-                    .heightIn(min = 32.dp, max = 60.dp),
-                verticalAlignment = Alignment.Bottom
-            ){
-                TextField(
-                    modifier = Modifier
-                        .weight(0.5f),
-                    value = levelText.toString(),
-                    onValueChange = {
-                        if (it.length <= 2) levelText = it.toInt()
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
-                        keyboardType = KeyboardType.Number
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
-                    ),
-                    textStyle = TextStyle(
-                        textAlign = TextAlign.Center
-                    ),
-                    singleLine = true,
-                    label = { Text(
-                        text = "Level",
-                        fontSize = 12.sp) }
-                )
-
-                Spacer(modifier = Modifier.width(20.dp))
-
-                Box(modifier = Modifier
-                    .weight(2f)
                 ){
-                    Button(onClick = { classExpanded = true }
-                    ){
-                        Text(text = classText)
-                        Icon(
-                            Icons.Default.ArrowDropDown,
-                            contentDescription = "Arrow Down")
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .heightIn(min = 32.dp, max = 60.dp),
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        IconButton(
+                            modifier = Modifier
+                                .heightIn(min = 60.dp, max = 120.dp)
+                                .weight(1f),
+                            onClick = { }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Face,
+                                contentDescription = null
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        TextField(
+                            modifier = Modifier
+                                .weight(3.5f),
+                            value = nameText,
+                            onValueChange = {
+                                if (it.length <= 100) nameText = it
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrectEnabled = false,
+                                keyboardType = KeyboardType.Text
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+//                        unfocusedContainerColor = Color.Transparent
+                            ),
+                            singleLine = true,
+                            textStyle = TextStyle(),
+                            label = {
+                                Text(
+                                    text = "Name",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        )
                     }
-                    DropdownMenu(
-                        expanded = classExpanded,
-                        onDismissRequest = { classExpanded = false }
-                    ){
-                        classes().forEach { (name) ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    classExpanded = false
-                                }) {
-                                Text(name)
+
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .heightIn(min = 32.dp, max = 60.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        TextField(
+                            modifier = Modifier
+                                .weight(3.5f),
+                            value = ancestryText,
+                            onValueChange = {
+                                if (it.length <= 50) ancestryText = it
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrectEnabled = false,
+                                keyboardType = KeyboardType.Text
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+//                        unfocusedContainerColor = Color.Transparent
+                            ),
+                            singleLine = true,
+                            label = {
+                                Text(
+                                    text = "Ancestry",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        TextField(
+                            modifier = Modifier
+                                .weight(0.8f),
+                            value = ageText.toString(),
+                            onValueChange = {
+                                if (it.length <= 3) ageText = it.toInt()
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrectEnabled = false,
+                                keyboardType = KeyboardType.Number
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+//                        unfocusedContainerColor = Color.Transparent
+                            ),
+                            textStyle = TextStyle(
+                                textAlign = TextAlign.Center
+                            ),
+                            singleLine = true,
+                            label = {
+                                Text(
+                                    text = "Age",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .heightIn(min = 32.dp, max = 60.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        TextField(
+                            modifier = Modifier
+                                .weight(0.5f),
+                            value = levelText.toString(),
+                            onValueChange = {
+                                if (it.length <= 2) levelText = it.toInt()
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrectEnabled = false,
+                                keyboardType = KeyboardType.Number
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+//                        unfocusedContainerColor = Color.Transparent
+                            ),
+                            textStyle = TextStyle(
+                                textAlign = TextAlign.Center
+                            ),
+                            singleLine = true,
+                            label = {
+                                Text(
+                                    text = "Level",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        Box(
+                            modifier = Modifier
+                                .weight(2f)
+                        ) {
+                            Button(onClick = { classExpanded = true }
+                            ) {
+                                Text(text = classText)
+                                Icon(
+                                    Icons.Default.ArrowDropDown,
+                                    contentDescription = "Arrow Down"
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = classExpanded,
+                                onDismissRequest = { classExpanded = false }
+                            ) {
+                                classes().forEach { (name) ->
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            classExpanded = false
+                                        }) {
+                                        Text(name)
+                                    }
+                                }
                             }
                         }
                     }
@@ -261,42 +286,44 @@ fun CharacterView(){
             Spacer(modifier = Modifier.padding(8.dp))
             Divider(thickness = 2.dp, color = Color.LightGray)
 
-            Row (
+            // STATS //
+            Box (
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min)
-            ){
+                    .fillMaxSize()
+            ) {
                 Column(
-                    modifier = Modifier
-                        .weight(1.5f),
-                    horizontalAlignment = Alignment.End
-                ){
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     Row(
                         modifier = Modifier
-                            .heightIn(min = 24.dp, max = 52.dp),
+                            .heightIn(min = 24.dp, max = 52.dp)
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             text = "Stats",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center)
+                            textAlign = TextAlign.Center
+                        )
                     }
 
                     Row(
                         modifier = Modifier
                             .heightIn(min = 24.dp, max = 52.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Icon(
                             painter = painterResource(Res.drawable.strength_statsicon),
                             tint = Color.LightGray,
-                            contentDescription = null)
+                            contentDescription = null
+                        )
                         Text(
                             text = "Strength:",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -321,7 +348,8 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(strText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
 
                     Row(
@@ -332,10 +360,12 @@ fun CharacterView(){
                         Icon(
                             painter = painterResource(Res.drawable.intelligence_statsicon),
                             tint = Color.LightGray,
-                            contentDescription = null)
+                            contentDescription = null
+                        )
                         Text(
                             text = "Intelligence:",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -360,7 +390,8 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(intText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
 
                     Row(
@@ -371,9 +402,12 @@ fun CharacterView(){
                         Icon(
                             painter = painterResource(Res.drawable.constitution_statsicon),
                             tint = Color.LightGray,
-                            contentDescription = null)
-                        Text(text = "Constitution:",
-                            fontSize = 20.sp)
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "Constitution:",
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -398,7 +432,8 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(conText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
 
                     Row(
@@ -409,9 +444,12 @@ fun CharacterView(){
                         Icon(
                             painter = painterResource(Res.drawable.spirit_statsicon),
                             tint = Color.LightGray,
-                            contentDescription = null)
-                        Text(text = "Spirit:",
-                            fontSize = 20.sp)
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "Spirit:",
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -436,7 +474,8 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(sptText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
 
                     Row(
@@ -447,9 +486,12 @@ fun CharacterView(){
                         Icon(
                             painter = painterResource(Res.drawable.agility_statsicon),
                             tint = Color.LightGray,
-                            contentDescription = null)
-                        Text(text = "Agility:",
-                            fontSize = 20.sp)
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "Agility:",
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -474,7 +516,8 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(agiText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
 
                     Row(
@@ -485,9 +528,12 @@ fun CharacterView(){
                         Icon(
                             painter = painterResource(Res.drawable.charisma_statsicon),
 //                            tint = Color.LightGray,
-                            contentDescription = null)
-                        Text(text = "Charisma:",
-                            fontSize = 20.sp)
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "Charisma:",
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -512,7 +558,8 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(chrText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
 
                     Row(
@@ -523,9 +570,12 @@ fun CharacterView(){
                         Icon(
                             painter = painterResource(Res.drawable.luck_statsicon),
                             tint = Color.LightGray,
-                            contentDescription = null)
-                        Text(text = "Luck:",
-                            fontSize = 20.sp)
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "Luck:",
+                            fontSize = 20.sp
+                        )
                         TextField(
                             modifier = Modifier
                                 .size(width = 48.dp, height = 52.dp),
@@ -550,27 +600,27 @@ fun CharacterView(){
                         )
                         Text(
                             text = "(" + calculateModifiers(lckText) + ")",
-                            fontSize = 20.sp)
+                            fontSize = 20.sp
+                        )
                     }
-                }
+                }//*
+            }
 
-                Divider(
-                    modifier = Modifier
-                        .width(2.dp)
-                        .fillMaxHeight(),
-                    thickness = 6.dp
-                )
+            Spacer(modifier = Modifier.padding(8.dp))
+            Divider(thickness = 2.dp, color = Color.LightGray)
 
+            // COUNTERS //
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ){
                 Column(
-                    modifier = Modifier
-                        .weight(1f),
-                    horizontalAlignment = Alignment.Start
+                    modifier = Modifier.fillMaxSize()
                 ){
                     Row(
                         modifier = Modifier
                             .heightIn(min = 24.dp, max = 52.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -583,25 +633,28 @@ fun CharacterView(){
 
                     Row(
                         modifier = Modifier
-                            .heightIn(min = 16.dp, max = 32.dp)
-                            .weight(1f),
+                            .heightIn(min = 16.dp, max = 32.dp),
                         verticalAlignment = Alignment.Bottom
                     ) {
-                        Text(modifier = Modifier
-                            .fillMaxWidth(),
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth(),
                             text = "Exhaustion",
                             fontSize = 20.sp,
-                            textAlign = TextAlign.Center)
+                            textAlign = TextAlign.Center
+                        )
                     }
 
-                    Row{
+                    Row {
                         IconButton(
                             modifier = Modifier
                                 .weight(1.3f),
                             onClick = { exhaustCount-- }
-                        ){
-                            Icon(imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = null)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowDown,
+                                contentDescription = null
+                            )
                         }
 
                         TextField(
@@ -631,17 +684,18 @@ fun CharacterView(){
                             modifier = Modifier
                                 .weight(1.3f),
                             onClick = { exhaustCount++ }
-                        ){
-                            Icon(imageVector = Icons.Default.KeyboardArrowUp,
-                                contentDescription = null)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowUp,
+                                contentDescription = null
+                            )
                         }
                     }
 
 
                     Row(
                         modifier = Modifier
-                            .heightIn(min = 16.dp, max = 32.dp)
-                            .weight(1f),
+                            .heightIn(min = 16.dp, max = 32.dp),
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Text(text = "Death Counters:")
@@ -667,8 +721,7 @@ fun CharacterView(){
 
                     Row(
                         modifier = Modifier
-                            .heightIn(min = 16.dp, max = 32.dp)
-                            .weight(1f),
+                            .heightIn(min = 16.dp, max = 32.dp),
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Text(text = "Strength:")
@@ -694,11 +747,8 @@ fun CharacterView(){
                 }
             }
 
-
             Spacer(modifier = Modifier.padding(8.dp))
             Divider(thickness = 2.dp, color = Color.LightGray)
-
-
         }
     }
 }
