@@ -1,21 +1,21 @@
 package compose.dndapp.user.ui.view.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -57,7 +57,8 @@ import dndappmp.composeapp.generated.resources.luck_statsicon
 import dndappmp.composeapp.generated.resources.spirit_statsicon
 import dndappmp.composeapp.generated.resources.strength_statsicon
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+
+import androidx.compose.desktop.ui.tooling.preview.Preview
 
 data class Class(val name: String)
 
@@ -80,6 +81,7 @@ fun CharacterView(){
     var classText by remember { mutableStateOf("Class Sample") }
     var classExpanded by remember { mutableStateOf(false) }
 
+    var healthText by remember { mutableIntStateOf(0) }
     var strText by remember { mutableIntStateOf(0) }
     var intText by remember { mutableIntStateOf(0) }
     var conText by remember { mutableIntStateOf(0) }
@@ -290,6 +292,9 @@ fun CharacterView(){
             Box (
                 modifier = Modifier
                     .fillMaxSize()
+                    .border(BorderStroke(2.dp, Color.Black),
+                        shape = RoundedCornerShape(percent = 5))
+                    .padding(8.dp)
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize()
@@ -306,8 +311,46 @@ fun CharacterView(){
                             text = "Stats",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Start
                         )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .heightIn(min = 24.dp, max = 102.dp)
+                    ) {
+                        Column(
+
+                        ){
+                            TextField(
+                                modifier = Modifier
+                                    .size(width = 78.dp, height = 52.dp),
+                                value = healthText.toString(),
+                                onValueChange = {
+                                    if (it.length <= 3) healthText = it.toInt()
+                                    if (it < 0.toString()) healthText = 0
+                                },
+                                textStyle = TextStyle(
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                ),
+                                keyboardOptions = KeyboardOptions(
+                                    capitalization = KeyboardCapitalization.None,
+                                    autoCorrectEnabled = false,
+                                    keyboardType = KeyboardType.Number
+                                ),
+                                colors = TextFieldDefaults.textFieldColors(
+//                                unfocusedContainerColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                ),
+                                singleLine = true
+                            )
+
+                            Text(
+                                text = "Hit Points(HP)",
+                                fontSize = 20.sp
+                            )
+                        }
                     }
 
                     Row(
@@ -765,8 +808,9 @@ fun calculateModifiers(value: Int):String {
     return modifier
 }
 
+
 @Composable
-@Preview()
+@Preview
 fun CharacterPreview(){
     CharacterView()
 }

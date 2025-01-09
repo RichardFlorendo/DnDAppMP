@@ -56,6 +56,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
         }
         desktopMain.dependencies {
@@ -71,6 +72,10 @@ kotlin {
 android {
     namespace = "compose.dndapp.user"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    buildFeatures {
+        compose = true
+    }
 
     defaultConfig {
         applicationId = "compose.dndapp.user"
@@ -99,7 +104,10 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.annotation.jvm)
-    debugImplementation(compose.uiTooling)
+
+    //Preview not working yet for Compose Multiplatform
+//    implementation(libs.androidx.ui.tooling.preview.android)
+//    implementation(libs.androidx.ui.tooling.preview.desktop)
 }
 
 compose.desktop {
