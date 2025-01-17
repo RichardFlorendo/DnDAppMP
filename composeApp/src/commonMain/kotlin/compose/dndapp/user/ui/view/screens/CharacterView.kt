@@ -59,6 +59,12 @@ import dndappmp.composeapp.generated.resources.strength_statsicon
 import org.jetbrains.compose.resources.painterResource
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.ScrollScope
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 
 data class Class(val name: String)
 
@@ -66,13 +72,16 @@ fun classes() = listOf(
     Class("Fighter"),
     Class("Rogue"),
     Class("Mage"),
-    Class("Bard")
+    Class("Bard"),
+    Class("Priest")
 )
 
 @Composable
 fun CharacterView(){
 
     var verticalScrollState: ScrollState = rememberScrollState()
+    var boxScrollableState: ScrollableState = rememberScrollableState { 2.0F }
+
     var nameText by remember { mutableStateOf("") }
     var ageText by remember { mutableIntStateOf(0) }
     var ancestryText by remember { mutableStateOf("") }
@@ -96,6 +105,7 @@ fun CharacterView(){
     Box(modifier = Modifier
         .padding(8.dp)
         .verticalScroll(verticalScrollState, enabled = true)
+        .scrollable(boxScrollableState, orientation = Orientation.Vertical, enabled = true)
         .fillMaxSize()
     ){
         Column (modifier = Modifier
