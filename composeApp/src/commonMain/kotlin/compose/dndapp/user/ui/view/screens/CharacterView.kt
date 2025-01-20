@@ -65,6 +65,7 @@ import androidx.compose.foundation.gestures.ScrollScope
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
+import kotlin.math.log
 
 data class Class(val name: String)
 
@@ -79,13 +80,13 @@ fun classes() = listOf(
 @Composable
 fun CharacterView(){
 
-    var verticalScrollState: ScrollState = rememberScrollState()
-    var boxScrollableState: ScrollableState = rememberScrollableState { 2.0F }
+    val verticalScrollState: ScrollState = rememberScrollState()
+    val boxScrollableState: ScrollableState = rememberScrollableState { 2.0F }
 
-    var nameText by remember { mutableStateOf("") }
-    var ageText by remember { mutableIntStateOf(0) }
-    var ancestryText by remember { mutableStateOf("") }
-    var levelText by remember { mutableIntStateOf(0) }
+    var nameText by remember { mutableStateOf("DnDude Name-o") }
+    var ageText by remember { mutableIntStateOf(1) }
+    var ancestryText by remember { mutableStateOf("Tashi (The Cunning)") }
+    var levelText by remember { mutableIntStateOf(1) }
 
     var classText by remember { mutableStateOf("Class Sample") }
     var classExpanded by remember { mutableStateOf(false) }
@@ -115,7 +116,11 @@ fun CharacterView(){
         ){
             // CHARACTER INFO //
             Box(
-
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(BorderStroke(2.dp, Color.Black),
+                        shape = RoundedCornerShape(percent = 5))
+                    .padding(8.dp)
             ){
                 Column(
 
@@ -128,7 +133,7 @@ fun CharacterView(){
                         verticalAlignment = Alignment.Bottom,
                         horizontalArrangement = Arrangement.Start
                     ) {
-                        IconButton(
+                        IconButton( //Player Portrait
                             modifier = Modifier
                                 .heightIn(min = 60.dp, max = 120.dp)
                                 .weight(1f),
@@ -142,12 +147,13 @@ fun CharacterView(){
 
                         Spacer(modifier = Modifier.width(20.dp))
 
-                        TextField(
+                        TextField( //Name
                             modifier = Modifier
-                                .weight(3.5f),
+                                .weight(2.5f),
                             value = nameText,
+                            enabled = false,
                             onValueChange = {
-                                if (it.length <= 100) nameText = it
+
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -155,7 +161,10 @@ fun CharacterView(){
                                 keyboardType = KeyboardType.Text
                             ),
                             colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
+                                disabledTextColor = Color.Black,
+                                disabledLabelColor = Color.Blue,
+                                disabledIndicatorColor = Color.Transparent,
+                                backgroundColor = Color.Transparent
                             ),
                             singleLine = true,
                             textStyle = TextStyle(),
@@ -166,47 +175,16 @@ fun CharacterView(){
                                 )
                             }
                         )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
-                            .heightIn(min = 32.dp, max = 60.dp),
-                        verticalAlignment = Alignment.Bottom
-                    ) {
-                        TextField(
-                            modifier = Modifier
-                                .weight(3.5f),
-                            value = ancestryText,
-                            onValueChange = {
-                                if (it.length <= 50) ancestryText = it
-                            },
-                            keyboardOptions = KeyboardOptions(
-                                capitalization = KeyboardCapitalization.None,
-                                autoCorrectEnabled = false,
-                                keyboardType = KeyboardType.Text
-                            ),
-                            colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
-                            ),
-                            singleLine = true,
-                            label = {
-                                Text(
-                                    text = "Ancestry",
-                                    fontSize = 12.sp
-                                )
-                            }
-                        )
 
                         Spacer(modifier = Modifier.width(20.dp))
 
-                        TextField(
+                        TextField( //Age
                             modifier = Modifier
-                                .weight(0.8f),
+                                .weight(0.7f),
                             value = ageText.toString(),
+                            enabled = false,
                             onValueChange = {
-                                if (it.length <= 3) ageText = it.toInt()
+
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -214,7 +192,10 @@ fun CharacterView(){
                                 keyboardType = KeyboardType.Number
                             ),
                             colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
+                                disabledTextColor = Color.Black,
+                                disabledLabelColor = Color.Blue,
+                                disabledIndicatorColor = Color.Transparent,
+                                backgroundColor = Color.Transparent
                             ),
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Center
@@ -236,12 +217,70 @@ fun CharacterView(){
                             .heightIn(min = 32.dp, max = 60.dp),
                         verticalAlignment = Alignment.Bottom
                     ) {
-                        TextField(
+                        TextField( //Ancestry
                             modifier = Modifier
-                                .weight(0.5f),
-                            value = levelText.toString(),
+                                .weight(2f),
+                            value = ancestryText,
+                            enabled = false,
                             onValueChange = {
-                                if (it.length <= 2) levelText = it.toInt()
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrectEnabled = false,
+                                keyboardType = KeyboardType.Text
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+                                disabledTextColor = Color.Black,
+                                disabledLabelColor = Color.Blue,
+                                disabledIndicatorColor = Color.Transparent,
+                                backgroundColor = Color.Transparent
+                            ),
+                            singleLine = true,
+                            label = {
+                                Text(
+                                    text = "Ancestry",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        TextField( //Class
+                            modifier = Modifier
+                                .weight(2f),
+                            value = classText,
+                            enabled = false,
+                            onValueChange = {
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.None,
+                                autoCorrectEnabled = false,
+                                keyboardType = KeyboardType.Text
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+                                disabledTextColor = Color.Black,
+                                disabledLabelColor = Color.Blue,
+                                disabledIndicatorColor = Color.Transparent,
+                                backgroundColor = Color.Transparent
+                            ),
+                            singleLine = true,
+                            label = {
+                                Text(
+                                    text = "Class",
+                                    fontSize = 12.sp
+                                )
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        TextField( //Level
+                            modifier = Modifier
+                                .weight(1f),
+                            value = levelText.toString(),
+                            enabled = false,
+                            onValueChange = {
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -249,7 +288,10 @@ fun CharacterView(){
                                 keyboardType = KeyboardType.Number
                             ),
                             colors = TextFieldDefaults.textFieldColors(
-//                        unfocusedContainerColor = Color.Transparent
+                                disabledTextColor = Color.Black,
+                                disabledLabelColor = Color.Blue,
+                                disabledIndicatorColor = Color.Transparent,
+                                backgroundColor = Color.Transparent
                             ),
                             textStyle = TextStyle(
                                 textAlign = TextAlign.Center
@@ -262,35 +304,6 @@ fun CharacterView(){
                                 )
                             }
                         )
-
-                        Spacer(modifier = Modifier.width(20.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .weight(2f)
-                        ) {
-                            Button(onClick = { classExpanded = true }
-                            ) {
-                                Text(text = classText)
-                                Icon(
-                                    Icons.Default.ArrowDropDown,
-                                    contentDescription = "Arrow Down"
-                                )
-                            }
-                            DropdownMenu(
-                                expanded = classExpanded,
-                                onDismissRequest = { classExpanded = false }
-                            ) {
-                                classes().forEach { (name) ->
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            classExpanded = false
-                                        }) {
-                                        Text(name)
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
