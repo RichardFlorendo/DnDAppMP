@@ -65,6 +65,11 @@ import androidx.compose.foundation.gestures.ScrollScope
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import kotlin.math.log
 
 data class Class(val name: String)
@@ -82,6 +87,9 @@ fun CharacterView(){
 
     val verticalScrollState: ScrollState = rememberScrollState()
     val boxScrollableState: ScrollableState = rememberScrollableState { 2.0F }
+
+    var charInfoEditState by remember { mutableStateOf(false) }
+    val firstBoxEditIcon: ImageVector = if(!charInfoEditState) Icons.Default.Edit else Icons.Default.Check
 
     var nameText by remember { mutableStateOf("DnDude Name-o") }
     var ageText by remember { mutableIntStateOf(1) }
@@ -110,9 +118,7 @@ fun CharacterView(){
         .fillMaxSize()
     ){
         Column (modifier = Modifier
-            .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
         ){
             // CHARACTER INFO //
             Box(
@@ -123,9 +129,47 @@ fun CharacterView(){
                     .padding(8.dp)
             ){
                 Column(
-
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
                 ){
-                    Row(
+                    Row ( //Character Info Label and Edit/Save Icon
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ){
+                        Text(
+                            modifier = Modifier,
+                            text = "Profile",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 2.dp, top = 8.dp),
+                            contentAlignment = Alignment.TopEnd
+                        ){
+                            IconButton( //Edit Button
+                                modifier = Modifier
+                                    .size(20.dp),
+                                onClick = {
+                                    charInfoEditState = (!charInfoEditState)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = firstBoxEditIcon,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+
+                    Row( //Character Info 1st Row
                         modifier = Modifier
                             .padding(8.dp)
                             .fillMaxWidth()
@@ -136,7 +180,7 @@ fun CharacterView(){
                         IconButton( //Player Portrait
                             modifier = Modifier
                                 .heightIn(min = 60.dp, max = 120.dp)
-                                .weight(1f),
+                                .weight(1.5f),
                             onClick = { }
                         ) {
                             Icon(
@@ -151,9 +195,9 @@ fun CharacterView(){
                             modifier = Modifier
                                 .weight(2.5f),
                             value = nameText,
-                            enabled = false,
+                            enabled = charInfoEditState,
                             onValueChange = {
-
+                                if (it.length <= 100) nameText = it
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -182,9 +226,14 @@ fun CharacterView(){
                             modifier = Modifier
                                 .weight(0.7f),
                             value = ageText.toString(),
-                            enabled = false,
+                            enabled = charInfoEditState,
                             onValueChange = {
+                                try{
+                                    if (it.length <= 4) ageText = it.toInt()
+                                }
+                                catch (_: Exception){
 
+                                }
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -210,7 +259,7 @@ fun CharacterView(){
                         )
                     }
 
-                    Row(
+                    Row( //Character Info 2nd Row
                         modifier = Modifier
                             .padding(8.dp)
                             .fillMaxWidth()
@@ -221,8 +270,9 @@ fun CharacterView(){
                             modifier = Modifier
                                 .weight(2f),
                             value = ancestryText,
-                            enabled = false,
+                            enabled = charInfoEditState,
                             onValueChange = {
+                                if (it.length <= 20) ancestryText = it
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -250,8 +300,9 @@ fun CharacterView(){
                             modifier = Modifier
                                 .weight(2f),
                             value = classText,
-                            enabled = false,
+                            enabled = charInfoEditState,
                             onValueChange = {
+                                if (it.length <= 20) classText = it
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -277,10 +328,16 @@ fun CharacterView(){
 
                         TextField( //Level
                             modifier = Modifier
-                                .weight(1f),
+                                .weight(0.6f),
                             value = levelText.toString(),
-                            enabled = false,
+                            enabled = charInfoEditState,
                             onValueChange = {
+                                try{
+                                    if (it.length <= 2) levelText = it.toInt()
+                                }
+                                catch (_: Exception){
+
+                                }
                             },
                             keyboardOptions = KeyboardOptions(
                                 capitalization = KeyboardCapitalization.None,
@@ -309,7 +366,6 @@ fun CharacterView(){
             }
 
             Spacer(modifier = Modifier.padding(8.dp))
-            Divider(thickness = 2.dp, color = Color.LightGray)
 
             // STATS //
             Box (
@@ -673,11 +729,14 @@ fun CharacterView(){
             }
 
             Spacer(modifier = Modifier.padding(8.dp))
-            Divider(thickness = 2.dp, color = Color.LightGray)
 
             // COUNTERS //
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(BorderStroke(2.dp, Color.Black),
+                        shape = RoundedCornerShape(percent = 5))
+                    .padding(8.dp)
             ){
                 Column(
                     modifier = Modifier.fillMaxSize()
